@@ -8,10 +8,16 @@
 ///
 /// Swaps can be performed between all pairs in the pool whitelisted for trading
 /// Liquidity provisioning is limited to designated accounts only and works as deposits / withdrawals of arbitrary composition.
+pub use self::amm::{
+    AmmPool,
+    AmmPoolRef,
+};
+
 #[ink::contract]
-mod amm_pool {
+mod amm {
     use ink::{contract_ref, prelude::{vec, vec::Vec}, storage::Mapping};
     use psp22::{PSP22Error, PSP22};
+    //use psp37::{PSP37Error, PSP37};
 
     #[derive(Debug, PartialEq, Eq, scale::Encode, scale::Decode)]
     #[cfg_attr(feature = "std", derive(scale_info::TypeInfo))]

@@ -1,9 +1,13 @@
 #![cfg_attr(not(feature = "std"), no_std, no_main)]
 
-        
-#[openbrush::implementation(PSP37, PSP37Burnable)]
+pub use self::perpToken::{
+    PerpToken,
+    PerpTokenRef,
+};
+
+#[openbrush::implementation(PSP37, PSP37Mintable)]
 #[openbrush::contract]
-pub mod my_psp37 {
+pub mod perpToken {
     use openbrush::traits::Storage;
 
     #[ink(storage)]

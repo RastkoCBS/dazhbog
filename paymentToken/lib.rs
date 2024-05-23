@@ -1,9 +1,13 @@
 #![cfg_attr(not(feature = "std"), no_std, no_main)]
 
-        
+pub use self::paymentToken::{
+    PaymentToken,
+    PaymentTokenRef,
+};
+
 #[openbrush::implementation(PSP22)]
 #[openbrush::contract]
-pub mod my_psp22 {
+pub mod paymentToken {
     use openbrush::traits::Storage;
 
     #[ink(storage)]

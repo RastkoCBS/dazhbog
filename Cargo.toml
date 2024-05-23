@@ -1,3 +1,4 @@
+workspace = { members = ["manager", "paymentToken", "perpToken", "amm", "paymentManager", "vault"] }
 [package]
 name = "dahbog"
 version = "0.1.0"
