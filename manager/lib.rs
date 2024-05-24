@@ -14,6 +14,16 @@ mod manager {
     use ink::storage::Mapping;
     use paymentManager::PaymentManagerRef;
 
+    #[ink::scale_derive(Encode, Decode, TypeInfo)]
+    #[cfg_attr(
+        feature = "std",
+        derive(ink::storage::traits::StorageLayout)
+    )]
+    pub enum Position {
+        LONG,
+        SHORT,
+    }
+
     #[ink(event)]
     pub struct PositionOpened {
         #[ink(topic)]
@@ -34,22 +44,30 @@ mod manager {
     //#[derive(Default)]
     pub struct Manager {
         balances: Mapping<(AccountId, TokenId), Balance>,
+        deposits: Mapping<(AccountId, TokenId), Balance>,
+        positions: Mapping<(AccountId, TokenId), Position>,
+        entry_position_prices: Mapping<(AccountId, TokenId), Balance>,
         paymentManager: PaymentManagerRef,
         oracle: AccountId,
+        leverage: u32,
     }
 
     impl Manager {
 
         #[ink(constructor, payable)]
-        pub fn new(payment_manager_code_hash: Hash, _oracle: AccountId) -> Self {
+        pub fn new(payment_manager_code_hash: Hash, _oracle: AccountId, _leverage: u32) -> Self {
             let balances = Mapping::default();
+            let entry_position_prices = Mapping::default();
+            let deposits = Mapping::default();
+            let positions = Mapping::default();
+            let leverage = _leverage;
             let paymentManager: PaymentManagerRef = PaymentManagerRef::new()
             .code_hash(payment_manager_code_hash)
             .endowment(0)
             .salt_bytes([0xDE, 0xAD, 0xBE, 0xEF])
             .instantiate();
             let oracle = _oracle;
-            Self { balances, paymentManager, oracle }
+            Self { balances, deposits, positions, entry_position_prices, paymentManager, oracle, leverage }
         }
 
         #[ink(message)]
@@ -82,9 +100,16 @@ mod manager {
         }
 
         #[ink(message)]
-        pub fn check_position(&self, user: AccountId, token_id: TokenId) -> i32 {
+        pub fn check_position(&self, user: AccountId, token_id: TokenId) -> Balance {
             //ping oracle for info
-            3
+            // let spot_price = self.oracle.get_price();
+            let spot_price: u128 = 123;
+            let entry_price = self.entry_position_prices.get((user, token_id)).unwrap();
+            //let position = self.positions.get((user, token_id));
+
+            let liquidation_price = (spot_price.saturating_sub(entry_price)).saturating_mul(self.leverage as u128);
+
+            liquidation_price
         }
     }
 }
