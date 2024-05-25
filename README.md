@@ -52,11 +52,11 @@ You can always update the `cargo-contract` binary to the latest version by runni
 ### Longing an Asset (Win Scenario):
 
 - User deposits funds (e.g., DOT) as collateral into the Dazhbog contract.
-- User specifies the desired leverage (e.g., 5x) and the amount of perpetual contract to long (e.g., 100 DAI).
+- User specifies the desired leverage (e.g., 5x) and the amount of perpetual contract to long (e.g., 100 USDC).
 - Dazhbog automatically calculates the required margin based on the - leverage and contract size.
 - User approves the margin transfer from their wallet to the contract.
-- The contract creates a long position for the user, representing a leveraged bet on the price of DAI increasing.
-- As the price of DAI goes up, the value of the user's position increases.
+- The contract creates a long position for the user, representing a leveraged bet on the price of USDC increasing.
+- As the price of USDC goes up, the value of the user's position increases.
 - User decides to close the position at a profit.
 - Dazhbog calculates the profit based on the entry and exit price, considering leverage.
 - User withdraws the initial collateral deposit and the earned profit from the contract.
@@ -64,7 +64,7 @@ You can always update the `cargo-contract` binary to the latest version by runni
 ### Longing an Asset (Loss Scenario):
 
 - User follows steps 1-4 as in the win scenario.
-- The price of DAI goes down instead of up.
+- The price of USDC goes down instead of up.
 - The value of the user's long position decreases.
 - As the price falls further, the contract might require additional collateral from the user to maintain the minimum margin ratio (maintenance margin). This is called a margin call.
 - User can either:
@@ -75,20 +75,20 @@ You can always update the `cargo-contract` binary to the latest version by runni
 ### Shorting an Asset (Win Scenario):
 
 - User deposits funds (e.g., DOT) as collateral into the Dazhbog contract.
-- User specifies the desired leverage (e.g., 5x) and the amount of perpetual contract to short (e.g., 100 DAI).
-- Dazhbog borrows the DAI equivalent from the contract pool to facilitate the short position. The borrowed DAI is used to create a synthetic short position.
+- User specifies the desired leverage (e.g., 5x) and the amount of perpetual contract to short (e.g., 100 USDC).
+- Dazhbog borrows the USDC equivalent from the contract pool to facilitate the short position. The borrowed USDC is used to create a synthetic short position.
 - User approves the collateral transfer from their wallet to the contract.
-- The contract creates a short position for the user, representing a leveraged bet on the price of DAI decreasing.
-- As the price of DAI goes down, the value of the user's position increases.
+- The contract creates a short position for the user, representing a leveraged bet on the price of USDC decreasing.
+- As the price of USDC goes down, the value of the user's position increases.
 - User decides to close the position at a profit.
-- The contract uses the borrowed DAI to buy back the shorted asset at the current market price.
-- User repays the borrowed DAI with interest to the contract pool.
+- The contract uses the borrowed USDC to buy back the shorted asset at the current market price.
+- User repays the borrowed USDC with interest to the contract pool.
 - User withdraws the initial collateral deposit and the earned profit from the contract.
 
 ### Shorting an Asset (Loss Scenario):
 
 - User follows steps 1-4 as in the win scenario.
-- The price of DAI goes up instead of down.
+- The price of USDC goes up instead of down.
 - The value of the user's short position decreases.
 - The contract might require additional collateral from the user to maintain the minimum margin ratio.
 - User can either:
