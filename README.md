@@ -1,16 +1,10 @@
-# Dahzbog
-
-Introducing Dazhbog, the pioneering perpetual futures trading platform built exclusively on Polkadot's groundbreaking ecosystem. Born out of innovation and propelled by the collaborative spirit of a hackathon.
-
-Dazhbog's perpetual futures contracts offer unparalleled flexibility, enabling traders to capitalize on price movements without the constraints of expiration dates. Whether hedging against market volatility, speculating on asset prices, or diversifying their investment portfolios, traders can leverage Dazhbog's perpetual futures contracts to pursue their trading objectives with precision and agility.
-
-At its core, Dazhbog embodies the ethos of innovation and collaboration that defines the Polkadot community.
-
-Experience the future of perpetual futures trading with Dazhbog– where innovation meets opportunity in the dynamic world of decentralized finance on Polkadot.
-
 # Dazhbog: Decentralized Perpetual Futures on Polkadot
 
 Dazhbog is a decentralized perpetual futures exchange built on Polkadot for the Polkadot Prodigy hackathon. It utilizes ink! smart contracts to facilitate peer-to-peer margin trading of perpetual contracts.
+
+![title](images/architectureOverview.png)
+
+[Miro board](https://miro.com/app/board/uXjVKDOV49s=/?share_link_id=628179226125).
 
 ## Getting Started
 
@@ -51,12 +45,12 @@ You can always update the `cargo-contract` binary to the latest version by runni
 
 ### Longing an Asset (Win Scenario):
 
-- User deposits funds (e.g., DOT) as collateral into the Dazhbog contract.
-- User specifies the desired leverage (e.g., 5x) and the amount of perpetual contract to long (e.g., 100 USDC).
-- Dazhbog automatically calculates the required margin based on the - leverage and contract size.
+- User deposits funds (e.g., USDC) as collateral into the Dazhbog contract.
+- User specifies the desired leverage (e.g., 5x) and the amount of perpetual contract to long (e.g., 100 DOT).
+- Dazhbog automatically calculates the required margin fee based on the - leverage and contract size.
 - User approves the margin transfer from their wallet to the contract.
-- The contract creates a long position for the user, representing a leveraged bet on the price of USDC increasing.
-- As the price of USDC goes up, the value of the user's position increases.
+- The contract creates a long position for the user, representing a leveraged bet on the price of DOT increasing.
+- As the price of DOT goes up, the value of the user's position increases.
 - User decides to close the position at a profit.
 - Dazhbog calculates the profit based on the entry and exit price, considering leverage.
 - User withdraws the initial collateral deposit and the earned profit from the contract.
@@ -64,7 +58,7 @@ You can always update the `cargo-contract` binary to the latest version by runni
 ### Longing an Asset (Loss Scenario):
 
 - User follows steps 1-4 as in the win scenario.
-- The price of USDC goes down instead of up.
+- The price of DOT goes down instead of up.
 - The value of the user's long position decreases.
 - As the price falls further, the contract might require additional collateral from the user to maintain the minimum margin ratio (maintenance margin). This is called a margin call.
 - User can either:
@@ -74,32 +68,27 @@ You can always update the `cargo-contract` binary to the latest version by runni
 
 ### Shorting an Asset (Win Scenario):
 
-- User deposits funds (e.g., DOT) as collateral into the Dazhbog contract.
-- User specifies the desired leverage (e.g., 5x) and the amount of perpetual contract to short (e.g., 100 USDC).
-- Dazhbog borrows the USDC equivalent from the contract pool to facilitate the short position. The borrowed USDC is used to create a synthetic short position.
+- User deposits funds (e.g., USDC) as collateral into the Dazhbog contract.
+- User specifies the desired leverage (e.g., 5x) and the amount of perpetual contract to short (e.g., 100 DOT).
 - User approves the collateral transfer from their wallet to the contract.
-- The contract creates a short position for the user, representing a leveraged bet on the price of USDC decreasing.
-- As the price of USDC goes down, the value of the user's position increases.
+- The contract creates a short position for the user, representing a leveraged bet on the price of DOT decreasing.
+- As the price of DOT goes down, the value of the user's position increases.
 - User decides to close the position at a profit.
-- The contract uses the borrowed USDC to buy back the shorted asset at the current market price.
-- User repays the borrowed USDC with interest to the contract pool.
 - User withdraws the initial collateral deposit and the earned profit from the contract.
 
 ### Shorting an Asset (Loss Scenario):
 
 - User follows steps 1-4 as in the win scenario.
-- The price of USDC goes up instead of down.
+- The price of DOT goes up instead of down.
 - The value of the user's short position decreases.
 - The contract might require additional collateral from the user to maintain the minimum margin ratio.
 - User can either:
     - Deposit more funds to meet the margin call.
     - Close the position at a loss.
-- If the user fails to meet the margin call, the contract will automatically liquidate their position. The user will lose their initial collateral deposit and any unrealized profits. The contract will also use the user's collateral to buy back the shorted asset at a loss, potentially incurring additional debt.
+- If the user fails to meet the margin call, the contract will automatically liquidate their position. The user will lose their initial collateral deposit and any unrealized profits. 
 
 
 ### Usage
-
-![title](images/architectureOverview.png)
 
 ![title](images/contractCalls.png)
 
