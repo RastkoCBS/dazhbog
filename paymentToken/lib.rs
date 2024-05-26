@@ -21,7 +21,6 @@ pub mod paymentToken {
         #[ink(constructor)]
         pub fn new(initial_supply: Balance) -> Self {
             let mut _instance = Self::default();
-			// psp22::Internal::_mint(&mut _instance, Self::env().caller(), initial_supply).expect("Should mint"); 
 			_instance
         }
     }

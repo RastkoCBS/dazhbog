@@ -2,7 +2,6 @@
 
 pub type TokenId = u128;
 pub type Result<T> = core::result::Result<T, Error>;
-// type Balance = <ink::env::DefaultEnvironment as ink::env::Environment>::Balance;
 
 #[derive(Debug, PartialEq, Eq)]
 #[ink::scale_derive(Encode, Decode, TypeInfo)]
@@ -101,13 +100,12 @@ mod manager {
 
         #[ink(message)]
         pub fn check_position(&self, user: AccountId, token_id: TokenId) -> Balance {
-            //ping oracle for info
             // let spot_price = self.oracle.get_price();
             let spot_price: u128 = 123;
             let entry_price = self.entry_position_prices.get((user, token_id)).unwrap();
             //let position = self.positions.get((user, token_id));
 
-            let liquidation_price = (spot_price.saturating_sub(entry_price)).saturating_mul(self.leverage as u128);
+            let liquidation_price = (spot_price.abs_diff(entry_price)).saturating_mul(self.leverage as u128);
 
             liquidation_price
         }

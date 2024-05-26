@@ -9,20 +9,23 @@ pub use self::paymentManager::{
 mod paymentManager {
     use super::*;
     pub type TokenId = u128;
-    // use amm::AmmPoolRef;
+    use amm::AmmPoolRef;
 
     #[ink(storage)]
     pub struct PaymentManager {
-        value: bool,
-        // amm_pool: AmmPoolRef,
+        amm_pool: AmmPoolRef,
     }
 
     impl PaymentManager {
         #[ink(constructor)]
-        pub fn new() -> Self {
-            // let amm_pool: AmmPoolRef = AmmPoolRef::new();
+        pub fn new(amm_code_hash: Hash) -> Self {
+            let amm: ammRef = PaymentManagerRef::new()
+            .code_hash(amm_code_hash)
+            .endowment(0)
+            .salt_bytes([0xDE, 0xAD, 0xBE, 0xEF])
+            .instantiate();
 
-            Self{value: true, /* amm_pool */}
+            Self{amm_pool: amm}
         }
 
         #[ink(message)]

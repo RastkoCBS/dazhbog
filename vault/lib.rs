@@ -2,13 +2,13 @@
 
 #[ink::contract]
 mod vault {
-    // use ink::{contract_ref};
-    // use psp22::{PSP22Error, PSP22};
     use super::*;
     use openbrush::traits::Storage;
     use ink::storage::Mapping;
     use paymentToken::PaymentTokenRef;
     use perpToken::PerpTokenRef;
+    use ink::parity_scale_codec::WrapperTypeDecode;
+
 
     #[ink(event)]
     pub struct Deposit {
@@ -32,6 +32,7 @@ mod vault {
     }
 
     #[ink(storage)]
+    #[derive(WrapperTypeDecode)]
     pub struct Vault {
         token_in: AccountId,
         token_out: AccountId,
@@ -53,9 +54,6 @@ mod vault {
             let perpToken: PerpTokenRef = PerpTokenRef::new()
                 .code_hash(perp_token_code_hash);
 
-            // let mut token_in: contract_ref!(PSP22) = _token_in.into();
-            // let mut token_out: contract_ref!(PSP37) = _token_out.into();
-
             Self { 
                 token_in: _token_in, 
                 token_out: _token_out, 
@@ -68,11 +66,11 @@ mod vault {
         #[ink(message)]
         pub fn deposit(&mut self, amount: Balance, calculated_amount: Balance, user: AccountId) {
             let contract = self.env().account_id();
-            // let mut token_ref: contract_ref!(PSP22) = self.token_in.into();
+            let mut token_ref: contract_ref!(PSP22) = self.token_in.into();
 
-            // token_ref.transfer_from(user, contract, amount, Vec::new());
+            token_ref.transfer_from(user, contract, amount, Vec::new());
 
-            // self.token_out.transfer(user, calculated_amount);
+            self.token_out.transfer(user, calculated_amount);
 
             self.env().emit_event(Deposit {
                 from: user,
@@ -82,32 +80,32 @@ mod vault {
             //Ok(())
         }
 
-        // #[ink(message)]
-        // pub fn withdraw(&mut self, amount: Balance, calculated_amount: Balance, user: AccountId) -> Result<()> {
-        //     let contract = self.env().account_id();
+        #[ink(message)]
+        pub fn withdraw(&mut self, amount: Balance, calculated_amount: Balance, user: AccountId) -> Result<()> {
+            let contract = self.env().account_id();
 
-        //     self.token_out.transfer_from(user, contract, calculated_amount);
+            self.token_out.transfer_from(user, contract, calculated_amount);
 
-        //     self.token_in.transfer(user, amount);
+            self.token_in.transfer(user, amount);
 
-        //     self.env().emit_event(Withdraw {
-        //         from: user,
-        //         amount,
-        //     });
+            self.env().emit_event(Withdraw {
+                from: user,
+                amount,
+            });
 
-        //     Ok(())
-        // }
+            Ok(())
+        }
 
-        // #[ink(message)]
-        // pub fn collect_margin_fee(&mut self, amount: Balance, manager: AccountId) -> Result<()> {
-        //     self.token_in.transfer(manager, amount);
+        #[ink(message)]
+        pub fn collect_margin_fee(&mut self, amount: Balance, manager: AccountId) -> Result<()> {
+            self.token_in.transfer(manager, amount);
 
-        //     self.env().emit_event(WithdrawMarginFee {
-        //         manager: manager,
-        //         amount,
-        //     });
+            self.env().emit_event(WithdrawMarginFee {
+                manager: manager,
+                amount,
+            });
 
-        //     Ok(())
-        // }
+            Ok(())
+        }
     }
 }
