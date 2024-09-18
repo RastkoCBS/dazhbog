@@ -1,3 +1,7 @@
+# Polkadot Hackathon 2024 Singapore & Bangkok
+
+Currently, an Ink! project is set up with a basic structure, but the methods have yet to be implemented, meaning the project is not fully functional. We participated in the Polkadot Prodigy hackathon with this project and secured first place in the DeFi category. The README providing an overview of the architecture.
+
 # Dazhbog: Decentralized Perpetual Futures on Polkadot
 
 Dazhbog is a decentralized perpetual futures exchange built on Polkadot for the Polkadot Prodigy hackathon. It utilizes ink! smart contracts to facilitate peer-to-peer margin trading of perpetual contracts.
@@ -99,9 +103,3 @@ Manager invoke `collect_margin_fee` on Payment Manager contract every 3h to coll
 Payment Manager calls `withdraw_funds`, `add_to_pool` or `remove_from_pool` functions on Vault contract to add assets, pay reward, close position or liquidate.
 
 Payment Manager uses AMM's `swap` function to exchange assets.
-
-
-### Hackathon
-
-Currently, an Ink! project is set up with a basic structure, but the methods have yet to be implemented, meaning the project is not fully functional. We participated in the Polkadot Prodigy hackathon with this project and secured first place in the DeFi category. The README providing an overview of the architecture.
-
