@@ -100,3 +100,8 @@ Payment Manager calls `withdraw_funds`, `add_to_pool` or `remove_from_pool` func
 
 Payment Manager uses AMM's `swap` function to exchange assets.
 
+
+### Hackathon
+
+Currently, an Ink! project is set up with a basic structure, but the methods have yet to be implemented, meaning the project is not fully functional. We participated in the Polkadot Prodigy hackathon with this project and secured first place in the DeFi category. The README providing an overview of the architecture.
+
