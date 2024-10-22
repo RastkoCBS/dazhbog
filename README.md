@@ -1,5 +1,8 @@
 # Dazhbog: Decentralized Perpetual Futures on Polkadot
 
+
+<img src="/images/dazhbog-logo.png" width="500" height="184" style="display: block; margin: 0 auto">
+
 Dazhbog is a decentralized perpetual futures exchange built on Polkadot for the Polkadot Prodigy hackathon. It utilizes ink! smart contracts to facilitate peer-to-peer margin trading of perpetual contracts.
 
 ![title](images/architectureOverview.png)
@@ -86,17 +89,3 @@ You can always update the `cargo-contract` binary to the latest version by runni
     - Deposit more funds to meet the margin call.
     - Close the position at a loss.
 - If the user fails to meet the margin call, the contract will automatically liquidate their position. The user will lose their initial collateral deposit and any unrealized profits. 
-
-
-### Usage
-
-![title](images/contractCalls.png)
-
-User deposits funds to Vault contract via Manager contract calling `open_position` function. Manager contract update storage mappings with info about position: `amount`,`leverage`,`entry_price`. Manager pings Oracle for price using `get_price` and calculate `liquidation_price`. 
-
-Manager invoke `collect_margin_fee` on Payment Manager contract every 3h to collect calculated margin fee. 
-
-Payment Manager calls `withdraw_funds`, `add_to_pool` or `remove_from_pool` functions on Vault contract to add assets, pay reward, close position or liquidate.
-
-Payment Manager uses AMM's `swap` function to exchange assets.
-
